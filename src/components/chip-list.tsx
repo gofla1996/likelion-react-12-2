@@ -1,6 +1,6 @@
 import './chip-list.css';
 import Chip from './chip';
-import type { ChipListType } from '@/types/chip';
+import type { ChipListType } from '@/data/chips';
 import { useState } from 'react';
 
 interface ChipListProps {
