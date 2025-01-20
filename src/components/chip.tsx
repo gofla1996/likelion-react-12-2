@@ -1,5 +1,5 @@
 import './chip.css';
-import { ChipType } from '@/data/chips';
+import { ChipType } from '@/types/chip';
 
 interface ChipProps {
   item: ChipType;
