@@ -1,9 +1,13 @@
 import express from 'express';
+import { resolve } from 'node:path';
+import fileUpload from 'express-fileupload';
 import { createUser, isRegisteredUser } from './lib/user.js';
 
 const app = express();
 // 미들웨어(middleware) 설정
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(resolve('./public')));
+app.use(fileUpload());
 
 // 로그인 API
 app.post('/api/signin', async (request, response) => {
@@ -49,9 +53,21 @@ app.post('/api/signup', async (request, response) => {
   const { username, useremail, userpassword } = request.body;
 
   if (!username || !useremail || !userpassword) {
+    console.log(username, useremail, userpassword);
     return response.status(400).send(`
       <p style="color: red">회원가입에 필요한 이름, 이메일, 패스워드 모두 입력이 필요합니다.</p>
     `);
+  }
+
+  // 파일(files) 정보 접근
+  const profileImage = request.files?.userprofile;
+  let profileImagePath = '';
+
+  if (profileImage) {
+    await profileImage.mv(resolve('./public/files') + profileImage.name);
+    profileImagePath = `/files/${profileImage.name}`;
+  } else {
+    console.log('이미지 없음');
   }
 
   try {
@@ -59,6 +75,7 @@ app.post('/api/signup', async (request, response) => {
     const newUser = await createUser({
       name: username,
       email: useremail,
+      profileImage: profileImagePath,
       password: userpassword,
     });
 

@@ -33,6 +33,7 @@ export async function createUser(newUser) {
     email: newUser.email,
     // password: 'bcrypt.hash(패스워드, saltRounds)' => 암호화된 패스워드
     password: hashedPassword,
+    profileImage: newUser.profileImage,
     id: crypto.randomUUID(),
   };
   users.push(createdUser);

@@ -1,26 +1,9 @@
 [
   {
-    "name": "한제이",
-    "email": "hanj2@kakao.com",
-    "password": "$2b$10$K7PvRTiwF3xH5h9R.2IZoOrM54q5fkxlHJiQuTSvRz5vm7O99lxrO",
-    "id": "591c1b02-c690-4348-8dcc-a0c1fb693edf"
-  },
-  {
-    "name": "지훈",
-    "email": "yamoo9@naver.com",
-    "password": "$2b$10$6dHtQ34rZC5yWbm9YQOiU.hI9Ek0MrUzlrt0cD9XlSVVHHvUvQbLi",
-    "id": "17c7075e-0cb6-42e8-9d02-156aab3a4935"
-  },
-  {
-    "name": "박수진",
-    "email": "sujin@naver.com",
-    "password": "$2a$09$d4EukC2VqIAMn3g4EQZSvOmfCd6QM9VTSPuDiuEmeF34iNQ5Es2g.",
-    "id": "86829851-2ebe-4596-9c6a-7ea0ba144eca"
-  },
-  {
-    "name": "김사자",
-    "email": "lion@lion.com",
-    "password": "$2a$09$dvAXHMG5qJvaJ8gxe7psNeTlEvLUD4/jntp5Fu5BBNuMQyFITgdqi",
-    "id": "51b75fd3-f301-4040-8eaf-1121541cea1e"
+    "name": "에일린",
+    "email": "aliean@naver.com",
+    "password": "$2a$09$2CkdJVV6f/V.bBB5dOyiHOwMFecWR/TfpG58srOw5nuq8kE4pKLBO",
+    "profileImage": "/files/ac736c1a-a5da-47ec-b605-a97201f60325.jpeg",
+    "id": "1c9478d6-fb84-433b-ac58-7e769206df18"
   }
 ]
