@@ -1,11 +1,43 @@
-import bcrypt from 'bcryptjs';
 import express from 'express';
-import { createUser } from './lib/user.js';
+import { createUser, isRegisteredUser } from './lib/user.js';
 
 const app = express();
 // 미들웨어(middleware) 설정
 app.use(express.urlencoded({ extended: false }));
 
+// 로그인 API
+app.post('/api/signin', async (request, response) => {
+  const { useremail, userpassword } = request.body;
+
+  if (!useremail || !userpassword) {
+    return response
+      .status(400)
+      .send('로그인을 시도하려면 이메일, 패스워드 입력이 필요합니다.');
+  }
+
+  const result = isRegisteredUser(useremail, userpassword);
+
+  // null인 경우, 가입한 적이 없는 사용자 실패!
+  if (result === null) {
+    return response
+      .status(400)
+      .send(
+        `<p style="color: red">${useremail} 이메일 계정으로 회원 가입된 적이 없습니다.</p>`
+      );
+  }
+
+  if (result) {
+    return response.status(200).send(`
+      <p style="color: red">${useremail} 계정으로 로그인되었습니다.</p>
+      `);
+  } else {
+    return response
+      .status(400)
+      .send(`<p style="color: red">계정 패스워드가 잘못되었습니다.</p>`);
+  }
+});
+
+// 회원가입 API
 app.post('/api/signup', async (request, response) => {
   // 클라이언트 요청 데이터
   /* request.body = {
