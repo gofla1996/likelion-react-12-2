@@ -25,3 +25,5 @@ function FormInput({
 }
 
 export default FormInput;
+
+export type FormInputProps = ComponentProps<typeof FormInput>;
