@@ -49,6 +49,13 @@ function ReactForm() {
     setContents(e.target.value);
   };
 
+  const [isFemale, setIsFemale] = useState<boolean>(true);
+  const handleToggleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isFemale = e.target.value === 'female';
+    setIsFemale(isFemale);
+    console.log('isFemale:', isFemale);
+  };
+
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
@@ -111,19 +118,30 @@ function ReactForm() {
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
-          <FormInput
-            type="radio"
-            label="남성"
-            name="usergender"
-            value="male"
-            defaultChecked
-          />
-          <FormInput
-            type="radio"
-            label="여성"
-            name="usergender"
-            value="female"
-          />
+          <div
+            style={{
+              display: 'flex',
+              gap: 12,
+              justifyContent: 'space-between',
+            }}
+          >
+            <FormInput
+              type="radio"
+              label="여성"
+              name="usergender"
+              value="female"
+              checked={isFemale}
+              onChange={handleToggleGender}
+            />
+            <FormInput
+              type="radio"
+              label="남성"
+              name="usergender"
+              value="male"
+              checked={!isFemale}
+              onChange={handleToggleGender}
+            />
+          </div>
         </fieldset>
 
         {/* type=checkbox */}
