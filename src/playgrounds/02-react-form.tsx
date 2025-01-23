@@ -63,12 +63,16 @@ function ReactForm() {
         {/* type=text */}
         <FormInput label="이름" placeholder="박수무당" />
 
+        {/* ---------------------------------------------------------- */}
+
         {/* type=password */}
         <FormInput
           type="password"
           label="비밀번호"
           placeholder="영어, 숫자 조합 4자리 이상"
         />
+
+        {/* ---------------------------------------------------------- */}
 
         {/* type=email */}
         <FormInput type="email" label="이메일" placeholder="user@company.io" />
@@ -115,6 +119,8 @@ function ReactForm() {
           <output>{limitAge}</output>
         </div>
 
+        {/* ---------------------------------------------------------- */}
+
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
@@ -144,6 +150,8 @@ function ReactForm() {
           </div>
         </fieldset>
 
+        {/* ---------------------------------------------------------- */}
+
         {/* type=checkbox */}
         <fieldset>
           <legend>취미</legend>
@@ -168,8 +176,12 @@ function ReactForm() {
           />
         </fieldset>
 
+        {/* ---------------------------------------------------------- */}
+
         {/* type=date */}
         <FormInput type="date" label="여행 날짜" />
+
+        {/* ---------------------------------------------------------- */}
 
         {/* type=datetime-local */}
         <FormInput type="datetime-local" label="비행기 출국 시간" />
@@ -187,6 +199,8 @@ function ReactForm() {
           defaultValue="propose"
           resize="horizontal"
         />
+
+        {/* ---------------------------------------------------------- */}
 
         {/* type=file (1) */}
         <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
@@ -206,6 +220,8 @@ function ReactForm() {
             />
           )}
         </div>
+
+        {/* ---------------------------------------------------------- */}
 
         {/* type=file (N) */}
         <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
@@ -230,6 +246,8 @@ function ReactForm() {
             : null}
         </div>
 
+        {/* ---------------------------------------------------------- */}
+
         <button type="submit">제출</button>
         <button
           type="reset"
@@ -244,7 +262,6 @@ function ReactForm() {
         >
           초기화
         </button>
-        {/* <input type="reset" value="초기화" /> */}
       </form>
     </div>
   );
