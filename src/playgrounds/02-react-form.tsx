@@ -1,5 +1,4 @@
 import FormInput from '@/components/form-input';
-import FormRadioOrCheckbox from '@/components/form-raido-or-checkbox';
 import { useState } from 'react';
 
 const formStyles = {
@@ -81,31 +80,26 @@ function ReactForm() {
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
-          <FormRadioOrCheckbox
+          <FormInput
             type="radio"
             label="남성"
             value="남성"
             name="usergender"
             defaultChecked
           />
-          <FormRadioOrCheckbox
-            type="radio"
-            label="여성"
-            value="여성"
-            name="usergender"
-          />
+          <FormInput type="radio" label="여성" value="여성" name="usergender" />
         </fieldset>
 
         {/* type=checkbox */}
         <fieldset>
           <legend>관심 작가</legend>
-          <FormRadioOrCheckbox type="checkbox" label="천선란" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="김초엽" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="박상영" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="문지혁" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="김희선" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="구병모" name="faves" />
-          <FormRadioOrCheckbox type="checkbox" label="강화길" name="faves" />
+          <FormInput type="checkbox" label="천선란" name="faves" />
+          <FormInput type="checkbox" label="김초엽" name="faves" />
+          <FormInput type="checkbox" label="박상영" name="faves" />
+          <FormInput type="checkbox" label="문지혁" name="faves" />
+          <FormInput type="checkbox" label="김희선" name="faves" />
+          <FormInput type="checkbox" label="구병모" name="faves" />
+          <FormInput type="checkbox" label="강화길" name="faves" />
         </fieldset>
 
         {/* type=date */}
