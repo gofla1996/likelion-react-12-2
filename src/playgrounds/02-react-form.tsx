@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormInput from '@/components/form-input';
+import FormRadio from '@/components/form-raido';
 
 const formStyles = {
   display: 'flex',
@@ -73,6 +74,27 @@ function ReactForm() {
           />
           <output>{limitAge}</output>
         </div>
+
+        {/* type=file */}
+        <FormInput type="file" label="프로필" accept="image/*" multiple />
+
+        {/* type=radio */}
+        <fieldset>
+          <legend>성별</legend>
+          <FormRadio
+            label="남성"
+            value="남성"
+            name="usergender"
+            defaultChecked
+          />
+          <FormRadio label="여성" value="여성" name="usergender" />
+        </fieldset>
+
+        {/* type=checkbox */}
+
+        {/* type=date */}
+
+        {/* type=datetime-local/ */}
 
         <button type="submit">제출</button>
       </form>
