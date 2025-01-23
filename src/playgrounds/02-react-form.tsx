@@ -45,6 +45,7 @@ function ReactForm() {
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
+        {/* type=file (multiple) */}
         <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
           <FormInput
             type="file"
