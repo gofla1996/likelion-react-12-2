@@ -1,5 +1,5 @@
-import FormInput from '@/components/form-input';
 import { useState } from 'react';
+import FormInput from '@/components/form-input';
 
 const formStyles = {
   display: 'flex',
@@ -18,11 +18,7 @@ function ReactForm() {
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
         {/* type=text */}
-        <FormInput
-          // type="text"
-          label="이름"
-          placeholder="박수무당"
-        />
+        <FormInput label="이름" placeholder="박수무당" />
 
         {/* type=password */}
         <FormInput
@@ -41,6 +37,8 @@ function ReactForm() {
           value={age}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const { value } = e.target;
+            // const nextAgeValue: number = +value;
+            // const nextAgeValue: number = Number(value);
             const nextAgeValue: number = parseInt(value, 10);
             setAge(nextAgeValue);
           }}
@@ -75,7 +73,46 @@ function ReactForm() {
         </div>
 
         {/* type=file */}
-        <FormInput type="file" label="프로필" accept="image/*" multiple />
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            label="프로필"
+            type="file"
+            accept="image/*"
+            // multiple
+            onChange={(e) => {
+              const { target: element } = e;
+              if (element.files && element.files.length > 0) {
+                const [profileImage] = element.files;
+                // console.log(profileImage); // File
+
+                // 명령형 프로그래밍
+                const profileImagePath = URL.createObjectURL(profileImage);
+                const parentElement = element.parentElement!;
+
+                parentElement.querySelector('img')?.remove();
+
+                const imgElement = document.createElement('img');
+
+                imgElement.setAttribute('src', profileImagePath);
+                imgElement.setAttribute('alt', '업로드 할 프로필');
+                imgElement.style.cssText = `
+            width: 100px;
+            height: 100px;
+          `;
+
+                parentElement.append(imgElement);
+              }
+            }}
+          />
+          {/* 업로드 할 이미지 표시 */}
+          {/* <img
+      style={{marginBlockStart: 8}}
+      src="/profiles/proflie-04.jpg"
+      alt="업로드 할 프로필"
+      width={100}
+      height={100}
+    /> */}
+        </div>
 
         {/* type=radio */}
         <fieldset>
@@ -83,30 +120,51 @@ function ReactForm() {
           <FormInput
             type="radio"
             label="남성"
-            value="남성"
             name="usergender"
+            value="male"
             defaultChecked
           />
-          <FormInput type="radio" label="여성" value="여성" name="usergender" />
+          <FormInput
+            type="radio"
+            label="여성"
+            name="usergender"
+            value="female"
+          />
         </fieldset>
 
         {/* type=checkbox */}
         <fieldset>
-          <legend>관심 작가</legend>
-          <FormInput type="checkbox" label="천선란" name="faves" />
-          <FormInput type="checkbox" label="김초엽" name="faves" />
-          <FormInput type="checkbox" label="박상영" name="faves" />
-          <FormInput type="checkbox" label="문지혁" name="faves" />
-          <FormInput type="checkbox" label="김희선" name="faves" />
-          <FormInput type="checkbox" label="구병모" name="faves" />
-          <FormInput type="checkbox" label="강화길" name="faves" />
+          <legend>취미</legend>
+          <FormInput
+            type="checkbox"
+            label="공부"
+            name="userhobby"
+            value="study"
+            defaultChecked
+          />
+          <FormInput
+            type="checkbox"
+            label="운동"
+            name="userhobby"
+            value="helth"
+          />
+          <FormInput
+            type="checkbox"
+            label="영화 감상"
+            name="userhobby"
+            value="watch-a-movie"
+          />
         </fieldset>
 
         {/* type=date */}
+        <FormInput type="date" label="여행 날짜" />
 
-        {/* type=datetime-local/ */}
+        {/* type=datetime-local */}
+        <FormInput type="datetime-local" label="비행기 출국 시간" />
 
         <button type="submit">제출</button>
+        <button type="reset">초기화</button>
+        {/* <input type="reset" value="초기화" /> */}
       </form>
     </div>
   );
