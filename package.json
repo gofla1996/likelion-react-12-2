@@ -47,6 +47,7 @@
     "vite": "6.0.7"
   },
   "dependencies": {
+    "bcryptjs": "2.4.3",
     "react": "19",
     "react-dom": "19"
   }

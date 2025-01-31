@@ -1,15 +1,15 @@
+import cors from 'cors';
 import express from 'express';
 import { resolve } from 'node:path';
 import fileUpload from 'express-fileupload';
 import { createUser, isRegisteredUser } from './lib/user.js';
 
 const app = express();
-// 미들웨어(middleware) 설정
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(resolve('./public')));
 app.use(fileUpload());
+app.use(cors());
 
-// 로그인 API
 app.post('/api/signin', async (request, response) => {
   const { useremail, userpassword } = request.body;
 
@@ -19,41 +19,34 @@ app.post('/api/signin', async (request, response) => {
       .send('로그인을 시도하려면 이메일, 패스워드 입력이 필요합니다.');
   }
 
-  const result = isRegisteredUser(useremail, userpassword);
+  const result = await isRegisteredUser(useremail, userpassword); // null or true or false
+
+  console.log({ result });
 
   // null인 경우, 가입한 적이 없는 사용자 실패!
   if (result === null) {
-    return response
-      .status(400)
-      .send(
-        `<p style="color: red">${useremail} 이메일 계정으로 회원 가입된 적이 없습니다.</p>`
-      );
+    return response.status(400).send(`
+      <p>${useremail} 이메일 계정으로 가입된 적이 없습니다.</p>
+    `);
   }
 
   if (result) {
+    // true인 경우, 패스워드가 유효한 사용자 (인증) 성공!
     return response.status(200).send(`
-      <p style="color: red">${useremail} 계정으로 로그인되었습니다.</p>
-      `);
+      <p>${useremail} 계정으로 로그인 되었습니다.</p>
+    `);
   } else {
-    return response
-      .status(400)
-      .send(`<p style="color: red">계정 패스워드가 잘못되었습니다.</p>`);
+    // false인 경우, 패스워드가 유효하지 않은 사용자 실패!
+    return response.status(400).send(`
+      <p>${useremail} 계정 패스워드가 잘못되었습니다.</p>
+    `);
   }
 });
 
-// 회원가입 API
 app.post('/api/signup', async (request, response) => {
-  // 클라이언트 요청 데이터
-  /* request.body = {
-      username: '지훈',
-      useremail: 'yamoo9@naver.com',
-      userpassword: '12345'
-    } */
-
   const { username, useremail, userpassword } = request.body;
 
   if (!username || !useremail || !userpassword) {
-    console.log(username, useremail, userpassword);
     return response.status(400).send(`
       <p style="color: red">회원가입에 필요한 이름, 이메일, 패스워드 모두 입력이 필요합니다.</p>
     `);
@@ -64,7 +57,7 @@ app.post('/api/signup', async (request, response) => {
   let profileImagePath = '';
 
   if (profileImage) {
-    await profileImage.mv(resolve('./public/files') + profileImage.name);
+    await profileImage.mv(resolve('public/files', profileImage.name));
     profileImagePath = `/files/${profileImage.name}`;
   } else {
     console.log('이미지 없음');
@@ -75,21 +68,23 @@ app.post('/api/signup', async (request, response) => {
     const newUser = await createUser({
       name: username,
       email: useremail,
-      profileImage: profileImagePath,
       password: userpassword,
+      profileImage: profileImagePath,
     });
 
     if (newUser) {
-      response
-        .status(201)
-        .send(`${newUser.name}님! 회원가입에 성공했습니다. 😊`);
+      // response
+      //   .status(201)
+      //   .send(`${newUser.name}님! 회원가입에 성공했습니다. 😊`);
+      const { password, ...user } = newUser;
+      response.status(201).json(user);
     } else {
-      response
-        .status(400)
-        .send(`${username}님은 회원 가입을 이미 하셨습니다. 😥`);
+      response.status(400).json({
+        message: `${username}님은 ${useremail} 이메일 주소로 회원 가입을 이미 하셨습니다. 😥`,
+      });
     }
   } catch (error) {
-    response.status(500).send('회원가입에 문제가 발생했습니다.');
+    response.status(500).json(error);
   }
 });
 
