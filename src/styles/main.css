@@ -1,3 +1,6 @@
+@import './tailwind.css';
+
+
 @layer base, components, utilities;
 
 @import './common/normalize.css' layer(base);
@@ -6,4 +9,4 @@
 @import './components/prose.css' layer(components);
 @import './components/playground.css' layer(components);
 
-@import './utilities/a11y.css' layer(utilities);
+/* @import './utilities/a11y.css' layer(utilities); */
