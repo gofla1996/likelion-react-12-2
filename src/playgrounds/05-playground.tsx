@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import SignUpForm from './playgrounds/03-signup-form';
-import SignInForm from './playgrounds/04-signin-form';
+import SignUpForm from './03-signup-form';
+import SignInForm from './04-signin-form';
 
 function Playground() {
   // 상태 변수 (React에서 직접 제어)
