@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import Nav from './homework/nav';
-import HomeworkSignIn from './homework/sign-in';
-import HomeworkSignUp from './homework/sign-up';
+import Nav from './homework/components/nav';
+import HomeworkSignIn from './homework/pages/sign-in';
+import HomeworkSignUpForm from './homework/pages/sign-up';
 
+// 리액트 외부 시스템 (부수적인 것: Side effects)
 const getUIView = () => {
   const searchParams = new URLSearchParams(location.search);
   const uiView = searchParams.get('view') ?? 'signin';
@@ -12,32 +13,14 @@ const getUIView = () => {
 type UIView = 'signin' | 'signup';
 
 function Playground() {
-  // 리액트 외부 시스템 (부수적인 것: Side Effect)
-  // const searchParams = getSearchParams();
-  // const view = searchParams.get('view') ?? 'signin';
-
-  // 상태 변수
-  // Q. 상태 변수의 초깃값을 설정하고 싶은데 ...
-  // 컴포넌트(함수) 몸체에는 부수적인 것은 작성하면 안되는데
-  // 그러면 어떻게 해야 할까요?
-
-  //  A. 초기화 함수를 사용해서 함수 내부에 리액트 외부의 것에 접근해 초깃값(데이터)을 반환하게 한다.
-
-  // 3.
-  const [uiView, setUiView] = useState<UIView>(getUIView);
-
-  // 1.
-  // setUiView(nextUiView);
-  // 2.
-  // setUiView((prevUiView) => nextUiView);
-
-  // 파생된 상태
+  const [uiView] = useState<UIView>(getUIView);
   const isSignInView = uiView.includes('signin');
 
   return (
     <div className="Playground">
       <h1>플레이그라운드</h1>
-      {isSignInView ? <HomeworkSignIn /> : <HomeworkSignUp />}
+      <Nav />
+      {isSignInView ? <HomeworkSignIn /> : <HomeworkSignUpForm />}
     </div>
   );
 }
