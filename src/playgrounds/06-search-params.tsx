@@ -7,10 +7,7 @@ import { getUIView, type UIView } from '@/homework/lib/ui-view';
 
 function Playground() {
   const [uiView] = useState<UIView>(getUIView);
-  // 로그인 뷰(화면)인가요? 네(yes, true) or 아니오(no, false)
-  // boolean type
-  // const isSignInView = uiView.includes('signin');
-  const isSignInView = uiView === 'signin';
+  const isSignInView = uiView.includes('signin');
 
   return (
     <div className="Playground bg-euid-gray-200 wrapper">

@@ -3,11 +3,15 @@
   padding: 8px 4px 8px 12px;
   flex-flow: column;
   gap: 8px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.30);
+  border-bottom: 0.5px solid rgba(0 40 200 / 0.3);
+
+  &:has(:focus) {
+    border-bottom-color: rgba(0 40 200 / 1);
+  }
 
   label {
     color: #000;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1;
   }
@@ -18,7 +22,8 @@
     button {
       --size: 24px;
 
-      display: flex;
+      /* Tailwind CSS 4로 스타일 방법 적용 */
+      /* display: flex;
       justify-content: center;
       align-items: center;
       inline-size: var(--size);
@@ -27,11 +32,11 @@
       border-radius: 6px;
       border: 0;
       padding: 0;
-      line-height: 1;
+      line-height: 1; */
 
-      &:hover:not(:disabled, &[aria-disabled="true"]) {
+      /* &:hover:not(:disabled, &[aria-disabled="true"]) {
         background-color: rgba(0 0 0 / 10%);
-      }
+      } */
     }
   }
 
@@ -41,10 +46,11 @@
     inline-size: 100%;
     border: 0;
     padding: 2px 4px;
+    outline: none;
 
     &::placeholder {
       color: rgba(0, 0, 0, 0.50);
-      font-size: 1.4rem;
+      font-size: 0.875rem;
       line-height: 1;
     }
   }

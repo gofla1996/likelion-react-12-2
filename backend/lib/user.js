@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import bcrypt from 'bcryptjs';
 
 const saltRounds = 9;
 const FILE_PATH = fileURLToPath(new URL('../data/users.json', import.meta.url));
@@ -20,6 +20,7 @@ export async function createUser(newUser) {
   // 이미 가입한 사용자인가요?
   const user = await findUserByEmail(newUser.email);
   // 이미 가입한 사용자라면 null 반환하고, 함수 종료합시다.
+  // 서버에서 클라이언트에 이미 회원가입한 사용자 임을 응답합니다.
   if (user) return null;
 
   // 새 가입자라면 사용자 정보를 data/users.json에 저장합니다.
@@ -29,28 +30,22 @@ export async function createUser(newUser) {
   const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
 
   const createdUser = {
+    id: crypto.randomUUID(),
     name: newUser.name,
     email: newUser.email,
-    // password: 'bcrypt.hash(패스워드, saltRounds)' => 암호화된 패스워드
-    password: hashedPassword,
     profileImage: newUser.profileImage,
-    id: crypto.randomUUID(),
+    password: hashedPassword,
   };
+
   users.push(createdUser);
 
-  await writeFile(
-    FILE_PATH,
-    JSON.stringify(users, null, 2 /* 공백 */),
-    OPTIONS /* 인코딩 옵션 */
-  );
+  await writeFile(FILE_PATH, JSON.stringify(users, null, 2), OPTIONS);
 
-  return newUser;
+  return createdUser;
 }
 
 export async function isRegisteredUser(email, password) {
   const user = await findUserByEmail(email);
-  if (!user) {
-    return null;
-    return await bcrypt.compare(password, user.password);
-  }
+  if (!user) return null;
+  return await bcrypt.compare(password, user.password);
 }
