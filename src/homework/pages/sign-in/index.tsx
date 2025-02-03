@@ -101,9 +101,7 @@ function HomeworkSignInForm() {
           onChange={handleChange}
           hasError={error.userpassword}
         />
-        <ActionButton className="yamoo9" aria-disabled={!isAllInputted}>
-          로그인
-        </ActionButton>
+        <ActionButton aria-disabled={!isAllInputted}>로그인</ActionButton>
       </form>
     </section>
   );
