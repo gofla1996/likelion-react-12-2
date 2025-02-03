@@ -1,10 +1,9 @@
 import { useState } from 'react';
-
 import Nav from '@/homework/components/nav';
 import { getUIView, type UIView } from '@/homework/lib/ui-view';
+import StateManagement from '@/homework/pages/state-management';
 import SignInForm from '@/homework/pages/sign-in';
 import SignUpForm from '@/homework/pages/sign-up';
-import StateManagement from './homework/pages/state-management';
 
 function Playground() {
   const [uiView] = useState<UIView>(getUIView);
@@ -25,6 +24,7 @@ function Playground() {
       break;
     }
   }
+
   return (
     <section className="Playground bg-euid-gray-200 wrapper">
       <h1>플레이그라운드</h1>
