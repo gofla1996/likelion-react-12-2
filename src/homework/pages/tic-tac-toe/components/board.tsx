@@ -1,5 +1,7 @@
-import { tm } from '@/utils/tw-merge';
 import { useState } from 'react';
+import { tm } from '@/utils/tw-merge';
+import Status from './status';
+import Grid from './grid';
 import {
   getNextPlayer,
   getStatusMessage,
@@ -7,8 +9,6 @@ import {
   INITIAL_CELLS,
   type Cells,
 } from '../constants';
-import Grid from './grid';
-import Status from './status';
 
 function Board() {
   // [상태]
@@ -52,10 +52,18 @@ function Board() {
     setCells(nextCells);
   };
 
+  // [이벤트 핸들러]
+  // 게임 초기화 함수
+  const handleReGame = () => {
+    // 게임 운영에 사용되는 상태 초기화 (리셋, 리-게임)
+    setCells(INITIAL_CELLS);
+    setOrder(0);
+  };
+
   return (
     <section className={tm('flex flex-col space-y-2 items-center', 'w-60')}>
       <h3 className="sr-only">게임 보드</h3>
-      <Status message={statusMessage} />
+      <Status message={statusMessage} onReGame={handleReGame} />
       <Grid cells={cells} winner={winner} onPlay={handlePlay} />
     </section>
   );
