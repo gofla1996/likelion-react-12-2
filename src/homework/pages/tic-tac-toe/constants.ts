@@ -24,8 +24,12 @@ const WINNER_CONDITIONS = [
   [2, 4, 6],
 ];
 
+// 다음 플레이어 반환 함수
+export const getNextPlayer = (order: number) =>
+  order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;
+
 // 게임 진행 검사 -> 게임 위너 반환 함수
-type Winner = {
+export type Winner = {
   player: PLAYER;
   condition: [number, number, number];
 } | null;
@@ -47,4 +51,25 @@ export const getWinner = (cells: Cells) => {
   }
 
   return winner as Winner;
+};
+
+// 게임 상태 메시지 반환 함수
+export const getStatusMessage = (
+  nextPlayer: PLAYER,
+  winner: Winner,
+  cells: Cells
+) => {
+  let statusMessage = `넥스트 플레이어 ${nextPlayer}`;
+
+  if (winner) {
+    statusMessage = `위너! ${winner.player}`;
+  }
+
+  const isDraw = !winner && cells.every((cell) => cell);
+
+  if (isDraw) {
+    statusMessage = '앗 비겼네!';
+  }
+
+  return statusMessage;
 };
