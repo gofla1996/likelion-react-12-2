@@ -22,7 +22,7 @@ interface State {
   errorInfo: null | ErrorInfo;
 }
 
-class Counter extends Component<Props, State> {
+class CounterClass extends Component<Props, State> {
   // 기본 속성 값 설정
   static defaultProps: Required<Props> = {
     count: 0,
@@ -62,7 +62,7 @@ class Counter extends Component<Props, State> {
 
   // <클래스 필드>
   state: State = {
-    count: this.props.count ?? Counter.defaultProps.count,
+    count: this.props.count ?? CounterClass.defaultProps.count,
     error: null,
     errorInfo: null,
     doubleCount: 0,
@@ -235,4 +235,4 @@ class Counter extends Component<Props, State> {
   };
 }
 
-export default Counter;
+export default CounterClass;

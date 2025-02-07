@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { tm } from '@/utils/tw-merge';
+import { useState } from 'react';
 
 interface CounterProps {
   count?: number;
@@ -35,26 +35,24 @@ function Counter({
 
   // [렌더]
   return (
-    <div className={tm('flex flex-col gap-3 items-start')}>
-      <output className={tm('text-react text-2xl font-bold')}>
+    <div className={tm('flex flex-col gap-2 items-start')}>
+      <output className={tm('font-semibold text-3xl text-react')}>
         {count} {doubleCount}
       </output>
-      <div
-        className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer', 'gap-2')}
-      >
+      <div className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer')}>
         <button
           type="button"
-          className={tm('bg-cyan-600 text-white rounded-full px-4.5 py-2')}
+          className={tm('px-6 py-1 bg-react text-white rounded-l-full')}
           onClick={handleDecrease}
         >
-          -
+          -{step}
         </button>
         <button
           type="button"
-          className={tm('bg-cyan-600 text-white rounded-full px-4 py-2')}
+          className={tm('px-6 py-1 bg-react text-white rounded-r-full')}
           onClick={handleIncrease}
         >
-          +
+          +{step}
         </button>
       </div>
     </div>
