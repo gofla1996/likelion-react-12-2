@@ -11,21 +11,18 @@ const viteConfig = defineConfig((env) => {
       react({
         jsxRuntime: 'automatic',
         babel: {
-          // plugins: [
-          //   [
-          //     '@locator/babel-jsx/dist',
-          //     {
-          //       env: 'development',
-          //     },
-          //   ],
-          // ],
+          plugins: [
+            [
+              '@locator/babel-jsx/dist',
+              {
+                env: 'development',
+              },
+            ],
+          ],
         },
       }),
       tailwindcss(),
     ],
-    esbuild: {
-      loader: 'tsx',
-    },
     server: {
       host: 'localhost',
       port: 3000,

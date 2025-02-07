@@ -22,8 +22,8 @@ function Cell({ children, className = '', onPlay, ...restProps }: CellProps) {
   return (
     <button
       type="button"
-      aria-disabled={hasChildren}
       onClick={handlePlay}
+      aria-disabled={hasChildren}
       className={tm(
         'cursor-pointer',
         'size-16 border rounded-md',
