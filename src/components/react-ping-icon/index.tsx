@@ -1,10 +1,6 @@
 import { tm } from '@/utils/tw-merge';
 
-interface ReactPingIconProps {
-  size: number;
-}
-
-function ReactPingIcon({ size }: ReactPingIconProps) {
+function ReactPingIcon({ size = 20 }: { size?: number }) {
   return (
     <span className="relative">
       <img src="/react.svg" alt="React" height={size} width={size} />
