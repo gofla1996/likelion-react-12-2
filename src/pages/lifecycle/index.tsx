@@ -1,4 +1,7 @@
-import { tm } from "@/utils/tw-merge";
+import { tm } from '@/utils/tw-merge';
+import Counter from './components/counter';
+
+// 클래스 컴포넌트 라이프사이클 메서드
 
 function LifecycleDemo() {
   return (
@@ -7,6 +10,7 @@ function LifecycleDemo() {
       <p className={tm('text-sm')}>
         클래스 컴포넌트의 라이프 사이클 메서드에 대해 알아봅니다.
       </p>
+      <Counter />
     </section>
   );
 }
