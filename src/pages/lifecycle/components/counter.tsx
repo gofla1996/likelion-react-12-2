@@ -11,9 +11,13 @@ interface Props {
   max?: number;
 }
 
+// 필수 속성(props)
+type RequiredProps = Required<Props>;
+
 // 상태(state)
 interface State {
   count: number;
+  doubleCount: number;
 }
 
 class Counter extends Component<Props, State> {
@@ -25,7 +29,7 @@ class Counter extends Component<Props, State> {
     max: 10,
   };
 
-  // [라이프사이클 메서드]
+  // [라이프사이클 메서드] -------------------------------------------------------------
   // 생성(constructor) 시점
   constructor(props: Props) {
     // 반드시 호출되어야 함!
@@ -39,33 +43,63 @@ class Counter extends Component<Props, State> {
     // };
   }
 
+  // [라이프사이클 메서드] -------------------------------------------------------------
+  // 외부 데이터(props)로부터 파생된 상태(derived state) 설정 시점
+  static getDerivedStateFromProps(
+    _props: Readonly<RequiredProps>,
+    state: Readonly<State>
+  ) {
+    // console.log('외부 데이터(props)로부터 파생된 상태(derived state) 설정 시점');
+    // console.log(props);
+
+    // 파생된 상태 (derived state)
+    return {
+      doubleCount: state.count * 2,
+    };
+  }
+
   // <클래스 필드>
-  state = {
+  state: State = {
     count: this.props.count ?? Counter.defaultProps.count,
+    doubleCount: 0,
   };
 
-  // [this 바인딩]
-  // this.handleDecrease = this.handleDecrease.bind(this);
-  // this.handleIncrease = this.handleIncrease.bind(this);
-  // 과거 방식
-  // 이벤트 핸들러를 화살표 함수로 정의하면 자동으로 this가 바인딩됨
+  // [라이프사이클 메서드] ---------------------------------------------
+  // 컴포넌트 렌더링 진행 유무 결정 시점
+  // <주의!!!> 오직 성능 최적화 만을 위해 사용!!
+  shouldComponentUpdate(
+    nextProps: Readonly<RequiredProps>,
+    nextState: Readonly<State>
+  ): boolean {
+    if (nextProps.max < nextState.count) {
+      console.log('렌더링 차단');
+      return false;
+    }
 
-  // <클래스 필드>
+    return true;
+
+    // 렌더링 해라
+    // return true;
+    // 렌더링 하지마라
+    // return false;
+  }
 
   // [라이프사이클 메서드] -------------------------------------------------------------
   // 렌더(render) 시점
   render() {
     // 컴포넌트 데이터(속성, 상태) 접근 가능
-    console.log(this.props);
-    console.log(this.state);
+    // console.log(this.props);
+    // console.log(this.state);
 
     return (
       <div className={tm('flex flex-col gap-3 items-start')}>
         <h2>카운터</h2>
         <output className={tm('text-react text-2xl font-bold')}>
-          {this.state.count}
+          {this.state.count} {this.state.doubleCount}
         </output>
-        <div className={tm('flex gap-2')}>
+        <div
+          className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer', 'gap-2')}
+        >
           <button
             type="button"
             className={tm('bg-cyan-600 text-white rounded-full px-4.5 py-2')}
@@ -141,18 +175,32 @@ class Counter extends Component<Props, State> {
   handleDecrease = () => {
     // console.log('감소', this);
     if (this.props.step) {
-      this.setState({
-        count: this.state.count - this.props.step,
-      });
+      this.setState(
+        {
+          count: this.state.count - this.props.step,
+        },
+        () => {
+          this.setState({
+            doubleCount: this.state.count * 2,
+          });
+        }
+      );
     }
   };
 
   handleIncrease = () => {
     // console.log('증가', this);
     if (this.props.step) {
-      this.setState({
-        count: this.state.count + this.props.step,
-      });
+      this.setState(
+        {
+          count: this.state.count + this.props.step,
+        },
+        () => {
+          this.setState({
+            doubleCount: this.state.count * 2,
+          });
+        }
+      );
     }
   };
 }
