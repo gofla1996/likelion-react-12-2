@@ -50,6 +50,8 @@ class Counter extends Component<Props, State> {
   // 과거 방식
   // 이벤트 핸들러를 화살표 함수로 정의하면 자동으로 this가 바인딩됨
 
+  // <클래스 필드>
+
   // [라이프사이클 메서드] -------------------------------------------------------------
   // 렌더(render) 시점
   render() {
@@ -60,12 +62,22 @@ class Counter extends Component<Props, State> {
     return (
       <div className={tm('flex flex-col gap-3 items-start')}>
         <h2>카운터</h2>
-        <output>{this.state.count}</output>
+        <output className={tm('text-react text-2xl font-bold')}>
+          {this.state.count}
+        </output>
         <div className={tm('flex gap-2')}>
-          <button type="button" onClick={this.handleDecrease}>
+          <button
+            type="button"
+            className={tm('bg-cyan-600 text-white rounded-full px-4.5 py-2')}
+            onClick={this.handleDecrease}
+          >
             -{this.props.step}
           </button>
-          <button type="button" onClick={this.handleIncrease}>
+          <button
+            type="button"
+            className={tm('bg-cyan-600 text-white rounded-full px-4 py-2')}
+            onClick={this.handleIncrease}
+          >
             +{this.props.step}
           </button>
         </div>
@@ -73,15 +85,22 @@ class Counter extends Component<Props, State> {
     );
   }
 
+  // <클래스 필드>
+  clearIntervalsId: NodeJS.Timeout | number = 0;
+
   // [라이프사이클 메서드] -------------------------------------------------------------
   // 컴포넌트 마운트(component did mount) 이후 시점
   componentDidMount() {
     // 리액트 렌더링 프로세스와 상관없는 이펙트 실행 (사이드 이펙트 처리)
-    const clearId = setTimeout(() => {
-      alert('타이머(사이드 이펙트) 처리');
-      clearTimeout(clearId);
-      console.log('타이머 클리어!');
-    }, 2000);
+    // const clearId = setTimeout(() => {
+
+    // 타이머 이벤트 구독
+    this.clearIntervalsId = setInterval(() => {
+      console.log(new Date().toLocaleTimeString());
+      // alert('타이머(사이드 이펙트) 처리');
+      // clearTimeout(clearId);
+      // console.log('타이머 클리어!');
+    }, 1000);
   }
 
   // [라이프사이클 메서드] -------------------------------------------------------------
@@ -92,12 +111,29 @@ class Counter extends Component<Props, State> {
   ): void {
     console.group('이전 상태 값');
     console.log(prevProps);
-    console.log(prevState);
+    console.log(prevState.count);
     console.groupEnd();
 
     console.group('현재 상태 값');
-    console.log(this.state);
+    console.log(this.state.count);
     console.groupEnd();
+
+    // 사이드 이펙트
+    // 리액트 렌더링 프로세스와 상관없는 일처리
+    if (this.state.count > 9) {
+      document.body.classList.add('bg-react', 'text-white');
+    } else {
+      document.body.classList.remove('bg-react', 'text-white');
+    }
+  }
+
+  // [라이프사이클 메서드] -------------------------------------------------------------
+  // 컴포넌트 언마운트(component will unmount) 이전 시점
+  componentWillUnmount() {
+    console.log('Counter 언마운트 될 예정');
+    // 타이머 이벤트 구독 해지
+    console.log('타이머 이벤트 구독 해지');
+    clearInterval(this.clearIntervalsId);
   }
 
   // <클래스 필드>
