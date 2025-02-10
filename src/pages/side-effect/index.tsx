@@ -3,46 +3,98 @@ import { tm } from '@/utils/tw-merge';
 import Button from './button';
 
 function SideEffectDemo() {
-  // 상태 변경 흐름
-  // 개발자가 작성한 상태 업데이트 코드는 즉시 상태 값을 바꾸지 않는다.
-  // setMessage('new message')
-  // 그럼 누가 언제 바꾸나? (즉시가 아니라, 나중에 언젠가...)
-  const [message, setMessage] = useState('');
-
-  // 상태 값이 변경 (컴포넌트 리-렌더링 === 함수 다시 실행)
-  // 함수의 다른 지역 변수에 그 값을 저장 (함수 다시 실행시 초기화)
-  // 상태 값이 변경된 이후에 그 값에 접근하려면 어떻게 해야 할까요?
-  // 이펙트 함수의 역할 중 하나는 종속성 배열에 추가된 상태 변경 이후에 콜백
+  // useEffect 훅 함수는 React의 외부 시스템과 동기화할 때 사용
+  // (필수) 이펙트 함수(effect callback) (외부 시스템과 동기화 코드 작성)
+  //       브라우저 이벤트 청취
+  // (옵션) 종속성 배열(dependencies) (반응성 데이터(상태 또는 속성)를 설정 가능, 빈 경우는 최초 1회 렌더링 이후 실행 됨)
+  // (옵션) 이펙트 클린업(cleanup, 정리) 함수
+  //       브라우저 이벤트 청취 해지
   useEffect(() => {
-    console.log('이펙트 함수 콜백', { message });
-  }, [message]);
+    // React 렌더링과 관련이 없는 브라우저의 타이머 API 사용
+    // 타이머 작동
+    let clearTimeoutId: NodeJS.Timeout;
+
+    const log = () => {
+      console.log(new Date().toLocaleTimeString());
+      clearTimeoutId = setTimeout(log, 1000);
+    };
+
+    log();
+
+    return () => {
+      clearTimeout(clearTimeoutId);
+    };
+
+    // 클린업(정리) 함수 = 이펙트 함수가 반환한 함수
+    // const cleanup = () => {
+    //   // 타이머 중단
+    //   clearInterval(clearIntervalId);
+    // };
+
+    // return cleanup;
+
+    // return /* cleanup */ () => {
+    //   // 타이머 중단
+    //   clearInterval(clearIntervalId);
+    // };
+  }, []);
+
+  // --------------------------------------------------------------------------
+
+  const [message, setMessage] = useState('');
 
   const handleConfirmStateChange = () => {
     console.group('상태 변경 요청');
     console.log('[전]', { message });
-    setMessage((m) => m + '🎩');
-    // 상태 값 변경 요청이 즉시 이루어지지 않는다.
-    console.log('[후]', { message });
+    const nextMessage = message + '🎩';
+    setMessage(nextMessage);
+
+    console.log('[후]', { message: nextMessage });
     console.groupEnd();
   };
 
-  // 리액트에 상태 변경 요청
-  // 리액트는 렌더링 (상태 변경함)
-  // [화면 업데이트] 리액트 돔이 실제 DOM 반영(추가, 수정, 삭제)
-  // 화면 업데이트 이후에 이펙트 콜백 실행 <- 여기서 실행!!
-  // useEffect(() => {
-  //   // 상태가 리액트에 의해 변경되었음을 보장
-  //   // 그러므로 개발자는 안심하고 상태가 변경되었기 때문에 무언가 처리
-  //   console.log('[state 변경 감지]\nSideEffectDemo 컴포넌트 내부\n', {
-  //     message,
-  //   });
-  // }, [message]);
+  useEffect(() => {
+    console.log('이펙트 함수 콜백', { message });
+  }, [message]);
+
+  // --------------------------------------------------------------------------
+
+  const [count, setCount] = useState(0);
+
+  const handleChangeCount = () => setCount((c) => c + 1);
+
+  useEffect(() => {
+    console.log({ count });
+  }, [count]);
+
+  // --------------------------------------------------------------------------
 
   return (
     <section className="*:text-slate-800">
       <h2 className="text-2xl font-medium mb-2">React.useEffect 훅 함수</h2>
-      <button type="button" onClick={handleConfirmStateChange}>
+      <button
+        type="button"
+        className={tm(
+          'cursor-pointer',
+          'px-2.5 py-1 rounded-tl-md',
+          'bg-black !text-white'
+        )}
+        onClick={handleConfirmStateChange}
+      >
         상태 변경 (요청)
+      </button>
+      <hr />
+      <button
+        type="button"
+        className={tm(
+          'cursor-pointer',
+          'flex justify-center items-center',
+          'size-8 my-2 p-0 rounded-full',
+          'bg-black !text-white font-extrabold'
+        )}
+        onClick={handleChangeCount}
+      >
+        {count}
       </button>
       <div className="flex gap-3 items-center">
         <p>Console 패널을 열고 🧤 버튼을 눌러보세요.</p>
