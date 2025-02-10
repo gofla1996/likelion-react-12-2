@@ -1,77 +1,52 @@
-import { tm } from '@/utils/tw-merge';
 import { useEffect, useState } from 'react';
-
-// 현재 컴포넌트가 마운트 되었는 지 확인하기 위한 변수
-// 리액트 컴포넌트 렌더링 프로세스와 무관
-let isMounted = false;
+import { tm } from '@/utils/tw-merge';
+import Button from './button';
 
 function SideEffectDemo() {
-// 리액트의 렌더링과 관련된 상태 변수
-const [message, setMessage] = useState('');
+  // 상태 변경 흐름
+  // 개발자가 작성한 상태 업데이트 코드는 즉시 상태 값을 바꾸지 않는다.
+  // setMessage('new message')
+  // 그럼 누가 언제 바꾸나? (즉시가 아니라, 나중에 언젠가...)
+  const [message, setMessage] = useState('');
 
-// [사이드 이펙트]
-// - 외부의 isMounded 변수 값 확인
-// - 리액트 렌더링과 상관 없음
-if (!isMounted) {
-  // [결론]
-  // 컴포넌트 초기 렌더링 시점에 컴포넌트(함수) 몸체 안에서
-  // 실제 DOM 요소 노드에 접근하려 시도하면 안됨!!
-  const buttonElement = document.querySelector('button[title="🍏 추가"]');
-  console.error('컴포넌트 몸체에서 DOM 노드 접근', buttonElement);
-}
+  // 상태 값이 변경 (컴포넌트 리-렌더링 === 함수 다시 실행)
+  // 함수의 다른 지역 변수에 그 값을 저장 (함수 다시 실행시 초기화)
+  // 상태 값이 변경된 이후에 그 값에 접근하려면 어떻게 해야 할까요?
+  // 이펙트 함수의 역할 중 하나는 종속성 배열에 추가된 상태 변경 이후에 콜백
+  useEffect(() => {
+    console.log('이펙트 함수 콜백', { message });
+  }, [message]);
 
-// 리액트 컴포넌트(함수) 몸체 안에서 useEffect 훅에 설정된
-// 이펙트 함수 안에서는 사이드 이펙트 처리 가능 (즉, 여기엔 외부 시스템 연동 코드 작성해도 됨!!)
-useEffect(
-  // 이펙트 콜백 (함수)
-  // 언제 실행되는가? (조건 요구)
-  // 조건이 일치한다면 렌더링 이후 시점에 콜백 실행
-  // 리액트 규칙 (조건문, 반복문 안에서 훅 함수 사용 불가능!)
-  () => {
-    // 리액트 렌더링 프로세스와 무관한 사이드 이펙트(리액트와 관련 없는 외부 시스템에 접근, 조작 등) 처리
-    // 사이드 이펙트 (브라우저 API 활용, React와 무관)
-    const buttonElement = document.querySelector('button[title="🍏 추가"]');
-
-    console.group('마운트 이후 1회 실행됨');
-    console.log('componentDidMount 라이프 사이클 메서드와 유사');
-    console.log('이펙트 콜백 함수 안에서 DOM 노드 접근', buttonElement);
+  const handleConfirmStateChange = () => {
+    console.group('상태 변경 요청');
+    console.log('[전]', { message });
+    setMessage((m) => m + '🎩');
+    // 상태 값 변경 요청이 즉시 이루어지지 않는다.
+    console.log('[후]', { message });
     console.groupEnd();
+  };
 
-    // 사이드 이펙트 처리
-    // 리액트 렌더링과 상관없는 외부 변수 값 변경 시도
-    // 컴포넌트가 렌더링되어 ReactDOM에 의해 실제 DOM으로 마운트 되었음을 보장
-    isMounted = true;
-  },
-  // 이펙트 종속(의존)성 배열
-  // 배열 내부에 반응성(reactivity) 상태 변수 설정
-  // 반응성 상태 값이 변경되면, 이펙트 콜백(함수) 호출
-  // 즉, 이펙트 콜백 함수를 실행하는 조건은 종속성 배열
-  []
-);
+  // 리액트에 상태 변경 요청
+  // 리액트는 렌더링 (상태 변경함)
+  // [화면 업데이트] 리액트 돔이 실제 DOM 반영(추가, 수정, 삭제)
+  // 화면 업데이트 이후에 이펙트 콜백 실행 <- 여기서 실행!!
+  // useEffect(() => {
+  //   // 상태가 리액트에 의해 변경되었음을 보장
+  //   // 그러므로 개발자는 안심하고 상태가 변경되었기 때문에 무언가 처리
+  //   console.log('[state 변경 감지]\nSideEffectDemo 컴포넌트 내부\n', {
+  //     message,
+  //   });
+  // }, [message]);
 
   return (
     <section className="*:text-slate-800">
       <h2 className="text-2xl font-medium mb-2">React.useEffect 훅 함수</h2>
+      <button type="button" onClick={handleConfirmStateChange}>
+        상태 변경 (요청)
+      </button>
       <div className="flex gap-3 items-center">
-        <p>Console 패널을 열고 🍏 버튼을 눌러보세요.</p>
-        <button
-          type="button"
-          title="🍏 추가"
-          className={tm(
-            'cursor-pointer select-none',
-            'rounded-md py-0.5 px-1.5 border-2 border-react',
-            'hover:bg-react/10 '
-          )}
-          onClick={() => {
-            console.group('상태 업데이트');
-            console.log('[전]', message);
-            setMessage((message) => message + '🍏');
-            console.log('[후]', message);
-            console.groupEnd();
-          }}
-        >
-          🍏 <span className="sr-only">추가</span>
-        </button>
+        <p>Console 패널을 열고 🧤 버튼을 눌러보세요.</p>
+        <Button message={message} onMessage={setMessage} />
       </div>
 
       <p
