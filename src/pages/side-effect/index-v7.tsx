@@ -1,7 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { tm } from '@/utils/tw-merge';
 import throttle from 'lodash-es/throttle';
-// import throttle from '@/utils/throttle';
 import debounce from 'lodash-es/debounce';
 
 function SideEffectDemo() {
