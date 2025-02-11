@@ -1,3 +1,7 @@
+import generateHexId from '../utils/generate-hex-id';
+
+console.log(generateHexId(12));
+
 const colorMoodList = [
   {
     id: 'f093fbf5576c',
@@ -72,6 +76,3 @@ const colorMoodList = [
 ];
 
 export default colorMoodList;
-
-export type ColorMoodList = typeof colorMoodList;
-export type ColorMoodItem = ColorMoodList[number];
