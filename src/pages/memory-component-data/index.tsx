@@ -11,6 +11,7 @@ function MemoryComponentDataPage() {
       <h3 className="text-lg text-slate-700 font-medium mb-4">
         StopWatch 컴포넌트
       </h3>
+
       <StopWatch />
 
       <h3 className="text-lg text-slate-700 font-medium my-4">
