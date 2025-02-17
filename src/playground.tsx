@@ -47,6 +47,7 @@ function Playground() {
           <ReactPingIcon size={24} /> Playground
         </span>
         <img
+          hidden
           src={getPublicImage('bear-transparent.png')}
           alt="베어"
           className="size-6 animate-rotate-y"
