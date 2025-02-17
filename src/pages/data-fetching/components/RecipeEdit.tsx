@@ -27,7 +27,7 @@ function RecipeEdit() {
     };
   }, []);
 
-  // 레시피 추가 요청
+  // 레시피 수정 요청
   const handleEdit = async (formData: FormData) => {
     await delay();
 
@@ -50,14 +50,16 @@ function RecipeEdit() {
     console.log(editedRecipe);
 
     // 서버의 응답을 받아서, 클라이언트 앱 화면 업데이트 요청
-    // if (data) {
-    //   const nextData: Recipes = {
-    //     ...data,
-    //     recipes: [newRecipe, ...data.recipes],
-    //   };
+    if (data) {
+      const nextData: Recipes = {
+        ...data,
+        recipes: data.recipes.map((recipe) => {
+          return recipe.id === editedRecipe.id ? editedRecipe : recipe;
+        }),
+      };
 
-    //   setData(nextData);
-    // }
+      setData(nextData);
+    }
   };
 
   return (
@@ -69,7 +71,7 @@ function RecipeEdit() {
           name="recipe"
           className="bg-white py-1 px-2 placeholder:text-sm"
           aria-label="레시피"
-          placeholder="레시피 이름 입력"
+          placeholder="수정할 레시피 이름"
         />
         <SubmitButton label="수정">
           <Edit size={24} />
