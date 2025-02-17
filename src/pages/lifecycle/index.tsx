@@ -1,8 +1,6 @@
 import { tm } from '@/utils/tw-merge';
 import Counter from './components/counter';
 
-// 클래스 컴포넌트 라이프사이클 메서드
-
 function LifecycleDemo() {
   return (
     <section className={tm('flex flex-col gap-2 mt-6')}>

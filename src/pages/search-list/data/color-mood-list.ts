@@ -18,7 +18,7 @@ const colorMoodList = [
     title: '초록색의 자연',
     description: '초록색이 주는 자연의 생명력과 신선함을 느껴보세요.',
     tags: ['초록색', 'green', '자연', '생명', '신선'],
-    isFavorited: false,
+    isFavorited: true,
   },
   {
     id: 'f6d365fda085',

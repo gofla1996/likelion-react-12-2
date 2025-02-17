@@ -1,76 +1,41 @@
-import { useEffect, useRef, useState } from 'react';
-import { Search } from '@mynaui/icons-react';
-import { tm } from '@/utils/tw-merge';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import SearchInput from './components/search-input';
 import TiltBox from './components/tilt-box';
+import { tm } from '@/utils/tw-merge';
 
 function AccessDOMPage() {
-  // 컴포넌트 바디(body)
-  // 렌더링 프로세스
-  // 순수성(purity)
-  // 상태 선언, 업데이트
-  // 리액트 자동 화면 변경
-
-  // useRef 훅 함수 DOM 노드 접근 참조 객체 생성
-  const abbrRef = useRef<HTMLElement>(null); // { current: null }
-  console.log(0, { 'abbrRef.current': abbrRef.current });
-
-  // 이펙트
-  useEffect(() => {
-    // 컴포넌트 DOM 노드 접근/조작
-    if (abbrRef.current) {
-      console.log(1, { 'abbrRef.current': abbrRef.current });
-    }
-  }, []);
-
   const [isParse, setIsParse] = useState(false);
-
-  // 사이드 이펙트 처리
-  // 리액트 돔의 노드가 아닌, 실제 DOM 노드에 접근
-  // - 이벤트 핸들러 (No 1.)
-  // - 이펙트 함수 (No 2.)
-  // - ref 콜백 함수 (No 3.)
-
-  // const sectionRefCallback = () => {
-  //   // 사이드 이펙트 처리
-  //   const clearId = setInterval(() => console.log(Date.now()), 1000 / 60);
-
-  //   return () => {
-  //     clearInterval(clearId);
-  //     console.log('정리');
-  //   };
-  // };
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // const formRef = useRef<HTMLFormElement>(null);
+  useLayoutEffect(() => {
+    console.log('layout effect');
+  });
 
-  // useEffect(() => {
-  //   const formElement = formRef.current;
-  //   if (formElement) {
-  //     VanillaTilt.init(formElement, {
-  //       ...VANILLA_TILT_OPTIONS,
-  //       glare: true,
-  //       'max-glare': 1,
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    console.log('effect');
+  });
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (searchInputRef.current) {
-  //       searchInputRef.current.focus();
-  //     }
-  //   }, 1000);
-  // }, []);
+  useEffect(() => {
+    const searchInput = searchInputRef.current;
 
-  // 마크업(markup) 생성
+    if (searchInput) {
+      // searchInput 조작
+      // 하위 컴포넌트의 DOM에 접근/조작
+      // console.log(searchInput);
+
+      setTimeout(() => {
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }, 1000);
+    }
+  }, []);
+
   return (
-    <section
-    // ref={sectionRefCallback}
-    >
-      <h2 className="text-2xl text-react font-medium">
+    <section>
+      <h2 className="text-2xl text-react font-medium mb-3">
         <abbr
-          ref={abbrRef}
           title="Document Object Model"
           className="cursor-help no-underline"
         >
@@ -78,49 +43,43 @@ function AccessDOMPage() {
         </abbr>{' '}
         접근/조작
       </h2>
-      <button
-        type="button"
-        onClick={() => {
-          setIsParse((p) => !p);
-        }}
-      >
-        DOM 용어 풀이
-      </button>
 
-      <form
-        // ref={formRef}
-        className="my-10 flex"
-      >
-        <div>
-          <label htmlFor="like-a-book" className="sr-only">
-            선호 도서
-          </label>
-          <input
-            ref={searchInputRef}
-            id="like-a-book"
-            type="search"
-            placeholder="좋아하는 도서는?"
-            className="bg-react text-white px-3 py-2"
-          />
-        </div>
+      <div className="flex items-center gap-3 mb-2">
         <button
-          type="submit"
-          aria-label="검색"
+          type="button"
+          onClick={() => {
+            setIsParse((p) => !p);
+          }}
           className={tm(
+            'order-1',
             'cursor-pointer',
-            'py-2 w-20 grid place-items-center',
-            'bg-cyan-700 text-white '
+            'inline-flex justify-center',
+            'py-2 px-5 rounded-full',
+            'bg-black text-white text-xs font-extrabold',
+            'active:scale-97 active:opacity-80'
           )}
         >
-          <Search />
+          DOM 용어 풀이
         </button>
-      </form>
+        <form className="my-2 flex">
+          {/* React 18  - React.forwardRef() 😥 */}
+          {/* React 19+ - ref 😀 */}
+          <SearchInput ref={searchInputRef} />
+        </form>
+      </div>
 
       <div className="flex flex-wrap">
         {Array(12)
           .fill(null)
           .map((_, index) => (
-            <TiltBox key={index}>{index}</TiltBox>
+            <TiltBox key={index} className="overflow-hidden">
+              <img
+                className="object-cover scale-280 hover:scale-200 transition-all ease-in-out duration-700"
+                src={`/furnitures/furniture-${index + 1}.jpg`}
+                alt=""
+              />
+              {/* {index + 1} */}
+            </TiltBox>
           ))}
       </div>
     </section>

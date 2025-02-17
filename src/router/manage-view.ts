@@ -19,4 +19,4 @@ export const resetActiveFocus = () => {
   }
 
   body.focus();
-}
+};

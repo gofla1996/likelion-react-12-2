@@ -60,6 +60,7 @@ function SideEffectDemo() {
   return (
     <section className="*:text-slate-800 flex flex-col space-y-10">
       <h2 className="text-2xl font-medium mb-2">React.useEffect 훅 함수</h2>
+
       <button
         type="button"
         className="px-2 py-1 border text-xl"
@@ -67,6 +68,7 @@ function SideEffectDemo() {
       >
         {count}
       </button>
+
       <output className="inline-flex my-5 py-3 px-5 border-6 text-2xl">
         x = {mouse.x} / y = {mouse.y}
       </output>

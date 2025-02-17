@@ -1,5 +1,5 @@
 // 쿼리 스트링(Query String)
-// 예) ?view=search-list&q=검색어
+// 예) ?view=search-list&q=red
 
 const QUERY_KEY = 'q';
 
