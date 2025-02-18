@@ -1,10 +1,44 @@
+import { useEffect, useState } from 'react';
+import type { PostgrestError } from '@supabase/supabase-js';
 import MemoList from './components/memo-list';
+import { getMemoList } from './lib/memo-list';
+import type { MemoItem } from './types';
 
 function MemoListPage() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<null | MemoItem[]>(null);
+  const [error, setError] = useState<null | PostgrestError>(null);
+
+  useEffect(() => {
+    let ignore = false;
+
+    getMemoList()
+      .then(({ error, data }) => {
+        if (error) {
+          throw error;
+        }
+
+        if (data && !ignore) {
+          setData(data);
+          setLoading(false);
+        }
+      })
+      .catch((error: PostgrestError) => {
+        setError(error);
+        setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
   return (
     <section>
       <h1>Memo List</h1>
-      <MemoList />
+      {loading && <div role="alert">데이터 로딩 중...</div>}
+      {error && <div role="alert">{error.message}</div>}
+      {data && <MemoList items={data} />}
     </section>
   );
 }

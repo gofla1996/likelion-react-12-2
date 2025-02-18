@@ -2,18 +2,26 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import { reactClickToComponent } from 'vite-plugin-react-click-to-component';
 
 const viteConfig = defineConfig((env) => {
   const isDevMode = env.mode.includes('development');
 
   return {
-    base: isDevMode? '/' : '/likelion-react-12-2/',
+    base: isDevMode ? '/' : '/likelion-react-12/',
     plugins: [
       react({
         jsxRuntime: 'automatic',
+        babel: {
+          plugins: [
+            [
+              '@locator/babel-jsx/dist',
+              {
+                env: 'development',
+              },
+            ],
+          ],
+        },
       }),
-      reactClickToComponent(),
       tailwindcss(),
     ],
     server: {
