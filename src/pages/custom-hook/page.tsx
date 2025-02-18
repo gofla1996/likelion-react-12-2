@@ -5,7 +5,7 @@ function CustomHookPage() {
 
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="font-bold text-2xl">사용자 정의 훅 함수(Custom Hook)</h2>
+      <h2 className="font-medium text-2xl">사용자 정의 훅 함수(Custom Hook)</h2>
     </section>
   );
 }
