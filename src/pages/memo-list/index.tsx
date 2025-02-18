@@ -4,11 +4,14 @@ import type { MemoItem } from './lib/supabase-client';
 import MemoList from './components/memo-list';
 import Loading from './components/loading';
 import { getMemoList, subscribe } from './lib/api';
+import useDocumentTitle from '@/hooks/use-document-title';
 
 function MemoListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<null | MemoItem[]>(null);
   const [error, setError] = useState<null | PostgrestError>(null);
+
+  useDocumentTitle('메모 리스트 with Supabase');
 
   useEffect(() => {
     let ignore = false;
