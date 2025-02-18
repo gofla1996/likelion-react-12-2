@@ -12,17 +12,14 @@ function CreateForm() {
     const content = (formData.get('content') as string).trim();
     // const currentTime = new Date().toISOString();
 
-
     const newMemoItem = {
       id,
       title,
       content,
-
     } as MemoItemInsert;
 
     await delay(600);
     await addMemoItem(newMemoItem);
-
   };
 
   const titleId = useId();
