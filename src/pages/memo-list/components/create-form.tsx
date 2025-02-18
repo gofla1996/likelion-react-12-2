@@ -1,8 +1,9 @@
 import { tm } from '@/utils/tw-merge';
-import { SendSolid } from '@mynaui/icons-react';
-import type { MemoItemInsert } from '../lib/supabase-client';
-import { addMemoItem } from '../lib/api';
 import { useId } from 'react';
+import { addMemoItem } from '../lib/api';
+import type { MemoItemInsert } from '../lib/supabase-client';
+import SendButton from './send-button';
+import delay from '@/utils/delay';
 
 function CreateForm() {
   const handleAddMemo = async (formData: FormData) => {
@@ -19,15 +20,9 @@ function CreateForm() {
 
     } as MemoItemInsert;
 
-    const { error, data } = await addMemoItem(newMemoItem);
-    
-    if (error) {
-      throw error;
-    }
+    await delay(600);
+    await addMemoItem(newMemoItem);
 
-    if (data) {
-      // 화면 업데이트
-    }
   };
 
   const titleId = useId();
@@ -74,7 +69,7 @@ function CreateForm() {
             'hover:text-sky-600'
           )}
         >
-          <SendSolid size={20} />
+          <SendButton />
         </button>
       </form>
     </section>
