@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
+import type { MemoItem } from './lib/supabase-client';
 import MemoList from './components/memo-list';
-import { getMemoList } from './lib/memo-list';
-import type { MemoItem } from './types';
+import Loading from './components/loading';
+import { getMemoList } from './lib/api';
 
 function MemoListPage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,8 +36,8 @@ function MemoListPage() {
 
   return (
     <section>
-      <h1>Memo List</h1>
-      {loading && <div role="alert">데이터 로딩 중...</div>}
+      <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
+      {loading && <Loading />}
       {error && <div role="alert">{error.message}</div>}
       {data && <MemoList items={data} />}
     </section>

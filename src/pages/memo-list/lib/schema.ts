@@ -6,46 +6,38 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       "memo-list": {
         Row: {
-          content: string | null
+          content: string
           created_at: string
           id: number
-          title: string | null
-          updated_at: string | null
+          title: string
+          updated_at: string
         }
         Insert: {
-          content?: string | null
+          content: string
           created_at?: string
           id?: number
-          title?: string | null
-          updated_at?: string | null
+          title: string
+          updated_at?: string
         }
         Update: {
-          content?: string | null
+          content?: string
           created_at?: string
           id?: number
-          title?: string | null
-          updated_at?: string | null
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
     }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    Views: Record<never, never>
+    Functions: Record<never, never>
+    Enums: Record<never, never>
+    CompositeTypes: Record<never, never>
   }
 }
 
