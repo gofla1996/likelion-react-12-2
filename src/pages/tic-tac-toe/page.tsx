@@ -1,98 +1,56 @@
-import { useState } from 'react';
-import { tm } from '@/utils/tw-merge';
-import Board from './components/board';
-import History from './components/history';
-import {
-  getNextPlayer,
-  getStatusMessage,
-  getWinner,
-  INITIAL_CELLS,
-  type Cells,
-} from './constants';
-import useDocumentTitle from '@/hooks/use-document-title';
+import Title from '@/components/title';
+import Loading from '../memo-list/components/loading';
+import PokemonWithUseFetchData from './components/pokemon-with-use-fetch-data';
+import { useFetchData } from '@/hooks/use-fetch-data';
+import type { PokemonList } from './types';
+import PokemonWithUseQuery from './components/pokemon-with-use-query';
+import useToggle from '@/hooks/use-toggle';
 
-function TicTacToe() {
-  useDocumentTitle('틱택토 게임 (with 시간여행 기능)');
+function CustomHookPage() {
+  // 포켓몬 집합 정보 가져오기
+  // 'https://pokeapi.co/api/v2/pokemon?offset=3&limit=10'
 
-  // [상태]
-  // 게임 보드 셀(cells, 9개(3 x 3))
-  const [gameHistory, setGameHistory] = useState<Cells[]>([INITIAL_CELLS]);
+  const { loading, error, data } = useFetchData<PokemonList>(
+    'https://pokeapi.co/api/v2/pokemon?offset=3&limit=28'
+  );
 
-  // [상태]
-  // 게임 순서(order)
-  const [gameOrder, setGameOrder] = useState<number>(0);
-
-  // [파생된 상태]
-  // 현재 게임 보드판
-  const currentCells = gameHistory[gameOrder];
-
-  // [파생된 상태]
-  // 다음 플레이어
-  const nextPlayer = getNextPlayer(gameOrder);
-
-  // [파생된 상태]
-  // 게임 승자 정보
-  const winner = getWinner(currentCells);
-
-  // [파생된 상태]
-  // 게임 상태 메시지
-  const statusMessage = getStatusMessage(nextPlayer, winner, currentCells);
-
-  // [이벤트 핸들러]
-  // 게임 진행 함수
-  const handlePlayGame = (index: number) => {
-    // 승리자가 있다면 게임 오버(GAME OVER)
-    if (winner) {
-      // 알림(notification)
-      alert(`GAME OVER!\nWinner ${winner.player}`);
-      return;
-    }
-
-    // 게임 상태 업데이트 (순서)
-    const nextGameOrder = gameOrder + 1;
-    setGameOrder(nextGameOrder);
-
-    // 게임 상태 업데이트 (게임 보드 셀)
-    const nextCells = currentCells.map((cell, i) =>
-      index !== i ? cell : nextPlayer
-    );
-
-    const nextGameHistory = [...gameHistory.slice(0, nextGameOrder), nextCells];
-
-    setGameHistory(nextGameHistory);
-  };
-
-  // [이벤트 핸들러]
-  // 게임 초기화 함수
-  const handleReGame = () => {
-    // 게임 운영에 사용되는 상태 초기화 (리셋, 리-게임)
-    setGameHistory([INITIAL_CELLS]);
-    setGameOrder(0);
-  };
-
-  // [이벤트 핸들러]
-  // 타임 트레버(시간 여행)
-  const handleTimeTravel = (travelIndex: number) => {
-    setGameOrder(travelIndex);
-  };
+  const [toggleState, toggle] = useToggle(true, {
+    // persist: true,
+    key: '@toggle/',
+  });
 
   return (
-    <article className={tm('flex space-x-5 justify-center', 'mt-10')}>
-      <h2 className="sr-only">틱택토 게임</h2>
-      <Board
-        cells={currentCells}
-        winner={winner}
-        statusMessage={statusMessage}
-        onPlayGame={handlePlayGame}
-        onReGame={handleReGame}
-      />
-      <History
-        count={gameHistory.length}
-        gameOrder={gameOrder}
-        onTimeTravel={handleTimeTravel}
-      />
-    </article>
+    <>
+      <Title>커스텀 훅</Title>
+      <section className="flex flex-col gap-2">
+        <h2 className="font-medium text-2xl mb-6">
+          사용자 정의 훅 함수(Custom Hook) 활용
+        </h2>
+
+        <button type="button" onClick={toggle}>
+          {toggleState?.toString()}
+        </button>
+
+        <h3 className="text-xl font-medium">
+          페이지에서 데이터 요청/응답 후, 화면 업데이트
+        </h3>
+        {loading && (
+          <Loading size={48} label="포켓몬 리스트 데이터 로딩 중..." />
+        )}
+        {error && <div role="alert">{error.message}</div>}
+        {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+        {!loading && data && <output>{data.results.length}</output>}
+
+        <hr className="my-10" />
+
+        <h3 className="text-xl font-medium mb-6">
+          컴포넌트에서 데이터 요청/응답 후, 화면 업데이트
+        </h3>
+        <PokemonWithUseFetchData />
+        <PokemonWithUseQuery />
+      </section>
+    </>
   );
 }
 
-export default TicTacToe;
+export default CustomHookPage;
