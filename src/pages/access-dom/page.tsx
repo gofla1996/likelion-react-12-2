@@ -1,11 +1,11 @@
+import { tm } from '@/utils/tw-merge';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import SearchInput from './components/search-input';
 import TiltBox from './components/tilt-box';
-import { tm } from '@/utils/tw-merge';
-import useDocumentTitle from '@/hooks/use-document-title';
+import Title from '../../components/title';
 
 function AccessDOMPage() {
-  useDocumentTitle('DOM 접근/조작');
+  <Title>DOM 접근/조작</Title>;
 
   const [isParse, setIsParse] = useState(false);
 
