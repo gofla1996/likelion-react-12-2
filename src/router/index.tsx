@@ -16,11 +16,18 @@ import SignUpForm from '@/pages/sign-up/page';
 import NotFound from '@/pages/not-found/page';
 import UsingContextPage from '@/pages/using-context/page';
 import TicTacToeContext from '@/pages/tic-tac-toe-with-context/page';
+// import from '@/pages//page';
+// import from '@/pages//page';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  // {
+  //   path: '',
+  //   text: '',
+  //   // element: < />,
+  // },
   {
     path: 'tic-tac-toe-with-context',
     text: '틱택토 게임 (with 컨텍스트)',
