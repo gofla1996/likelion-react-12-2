@@ -14,11 +14,17 @@ import TicTacToe from '@/pages/tic-tac-toe/page';
 import SignInForm from '@/pages/sign-in/page';
 import SignUpForm from '@/pages/sign-up/page';
 import NotFound from '@/pages/not-found/page';
+import UsingContextPage from '@/pages/using-context/page';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  {
+    path: 'context-api',
+    text: '컨텍스트',
+    element: <UsingContextPage />,
+  },
   {
     path: 'streaming',
     text: '스트리밍',
