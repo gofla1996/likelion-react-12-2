@@ -1,5 +1,5 @@
 import Title from '@/components/title';
-import PokemonSpinner from './components/spinner';
+import PokemonSpinner from './components/pokemon-spinner';
 import { Suspense, useState } from 'react';
 import Pokemon from './components/pokemon';
 
