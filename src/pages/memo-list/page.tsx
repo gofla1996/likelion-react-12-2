@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import Title from '@/components/title';
 import type { PostgrestError } from '@supabase/supabase-js';
-import type { MemoItem } from './lib/supabase-client';
-import MemoList from './components/memo-list';
+import { useEffect, useState } from 'react';
 import Loading from './components/loading';
+import MemoList from './components/memo-list';
 import { getMemoList, subscribe } from './lib/api';
-import useDocumentTitle from '@/hooks/use-document-title';
+import type { MemoItem } from './lib/supabase-client';
 
 function MemoListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<null | MemoItem[]>(null);
   const [error, setError] = useState<null | PostgrestError>(null);
-
-  useDocumentTitle('메모 리스트 with Supabase');
 
   useEffect(() => {
     let ignore = false;
@@ -46,8 +44,8 @@ function MemoListPage() {
       switch (payload.eventType) {
         case 'INSERT': {
           setData((data) => {
-            const nextData = [...data!, payload.new] as MemoItem[];
-            return nextData;
+            const nextData = [...data!, payload.new];
+            return nextData as MemoItem[];
           });
           break;
         }
@@ -76,12 +74,15 @@ function MemoListPage() {
   }, []);
 
   return (
-    <section>
-      <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
-      {loading && <Loading />}
-      {error && <div role="alert">{error.message}</div>}
-      {data && <MemoList items={data} />}
-    </section>
+    <>
+      <Title>메모리스트 with Supabase</Title>
+      <section>
+        <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
+        {loading && <Loading />}
+        {error && <div role="alert">{error.message}</div>}
+        {data && <MemoList items={data} />}
+      </section>
+    </>
   );
 }
 
