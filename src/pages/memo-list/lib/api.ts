@@ -1,5 +1,5 @@
-import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { supabase } from './supabase-client';
+import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import type {
   MemoItem,
   MemoItemInsert,
@@ -66,7 +66,6 @@ export const deleteMemoItem = async (deleteItemId: MemoItem['id']) => {
   return await supabase.from(DATABASE_NAME).delete().eq('id', deleteItemId);
 };
 
-// Realtime 구독 함수
 export const subscribe = (
   callback: (
     payload: RealtimePostgresChangesPayload<Record<string, unknown>>

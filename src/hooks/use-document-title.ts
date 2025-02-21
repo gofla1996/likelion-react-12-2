@@ -11,7 +11,7 @@ function useDocumentTitle(
     } else {
       document.title = title;
     }
-  }, [base, divider, title]);
+  }, [title, base, divider]);
 }
 
 export default useDocumentTitle;

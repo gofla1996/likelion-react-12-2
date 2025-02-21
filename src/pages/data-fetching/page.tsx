@@ -1,54 +1,34 @@
-import useDocumentTitle from '@/hooks/use-document-title';
+import Title from '@/components/title';
 import RecipeCreate from './components/RecipeCreate';
 import RecipeDelete from './components/RecipeDelete';
 import RecipeEdit from './components/RecipeEdit';
 import RecipeList from './components/RecipeList';
 import RecipeSingle from './components/RecipeSingle';
-import useQuery from '@/hooks/use-query';
-import type { Pokemon } from '@/types/pokemon';
-import Loading from '../memo-list/components/loading';
-
-const fetchPokemon = (type: string) =>
-  fetch(`https://pokeapi.co/api/v2/pokemon/${type}`);
 
 function DataFetchingPage() {
-  useDocumentTitle('데이터 페칭');
-
-  const { data, isLoading } = useQuery<Pokemon>({
-    queryKey: '@pokemon/pikachu',
-    queryFn: () => fetchPokemon('pikachu'),
-  });
-
   return (
-    <section className="flex flex-col gap-5 my-5">
-      <h2 className="text-2xl font-medium">포켓몬</h2>
-      {isLoading ? (
-        <Loading size={48} />
-      ) : (
-        <figure className="flex gap-5">
-          <img src={data?.sprites.front_default} alt="" />
-          <img src={data?.sprites.back_default} alt="" />
-        </figure>
-      )}
+    <>
+      <Title>데이터 페칭</Title>
+      <section className="flex flex-col gap-5 my-5">
+        <h2 className="text-2xl font-medium">데이터 변형(Data Mutations)</h2>
 
-      <h2 className="text-2xl font-medium">데이터 변형(Data Mutations)</h2>
+        <RecipeDelete />
+        <RecipeEdit />
+        <RecipeCreate />
 
-      <RecipeDelete />
-      <RecipeEdit />
-      <RecipeCreate />
+        <hr />
 
-      <hr />
+        <h2 className="text-2xl font-medium">데이터 쿼리(Data Query)</h2>
 
-      <h2 className="text-2xl font-medium">데이터 쿼리(Data Query)</h2>
+        <h3 className="text-xl font-medium">레시피 리스트</h3>
+        <RecipeList />
 
-      <h3 className="text-xl font-medium">레시피 리스트</h3>
-      <RecipeList />
+        <hr />
 
-      <hr />
-
-      <h3 className="text-xl font-medium">레시피 싱글</h3>
-      <RecipeSingle />
-    </section>
+        <h3 className="text-xl font-medium">레시피 싱글</h3>
+        <RecipeSingle />
+      </section>
+    </>
   );
 }
 

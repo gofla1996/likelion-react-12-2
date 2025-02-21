@@ -1,16 +1,14 @@
-import { tm } from '@/utils/tw-merge';
 import { useId } from 'react';
+import delay from '@/utils/delay';
+import SendButton from './send-button';
 import { addMemoItem } from '../lib/api';
 import type { MemoItemInsert } from '../lib/supabase-client';
-import SendButton from './send-button';
-import delay from '@/utils/delay';
 
 function CreateForm() {
   const handleAddMemo = async (formData: FormData) => {
     const id = Math.floor(Math.random() * 1000);
     const title = (formData.get('title') as string).trim();
     const content = (formData.get('content') as string).trim();
-    // const currentTime = new Date().toISOString();
 
     const newMemoItem = {
       id,
@@ -18,7 +16,7 @@ function CreateForm() {
       content,
     } as MemoItemInsert;
 
-    await delay(600);
+    await delay(1200);
     await addMemoItem(newMemoItem);
   };
 
@@ -56,18 +54,7 @@ function CreateForm() {
             className="bg-react text-white py-1.5 px-2.5 rounded-sm"
           />
         </div>
-        <button
-          type="submit"
-          aria-label="작성"
-          title="작성"
-          className={tm(
-            'cursor-pointer self-start',
-            'p-1 bg-react text-white/80 rounded-sm',
-            'hover:text-sky-600'
-          )}
-        >
-          <SendButton />
-        </button>
+        <SendButton />
       </form>
     </section>
   );

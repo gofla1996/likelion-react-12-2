@@ -7,6 +7,7 @@ function HistoryItem({
   className = '',
   ...restProps
 }: HistoryItemProps) {
+
   return (
     <button
       type="button"

@@ -18,23 +18,13 @@ export interface TicTacToeContextValue {
 export const TicTacToeContext = createContext<TicTacToeContextValue>({
   gameHistory: [[]],
   currentCells: [],
-  setGameHistory: () => {
-    /* ... */
-  },
+  setGameHistory: () => { /* ... */ },
   gameOrder: 0,
   nextPlayer: PLAYER.ONE,
   winner: null,
   statusMessage: '',
-  setGameOrder: () => {
-    /* ... */
-  },
-  playGame: () => {
-    /* ... */
-  },
-  restartGame: () => {
-    /* ... */
-  },
-  jumpGame: () => {
-    /* ... */
-  },
+  setGameOrder:() => { /* ... */ },
+  playGame:() => { /* ... */ },
+  restartGame:() => { /* ... */ },
+  jumpGame:() => { /* ... */ },
 });
