@@ -1,12 +1,21 @@
 import { useCountStore } from '@/stores/count';
+import { memo } from 'react';
 
 function CountDisplay() {
-  // 상태만 가지고 옵니다.
-  // 화면 업데이트가 필요하니가
-  // 상태가 변경되면 CountDisplay 컴포넌트는 리-렌더링 된다.
+  const { count, square } = useCountStore();
 
-  const count = useCountStore(({ count }) => count);
-  return <output className="font-black text-3xl">{count}</output>;
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex gap-1 items-center">
+        <span>카운트(count)</span>
+        <output className="font-black text-3xl">{count}</output>
+      </div>
+      <div className="flex gap-1 items-center">
+        <span>제곱(square)</span>
+        <output className="font-black text-3xl">{square}</output>
+      </div>
+    </div>
+  );
 }
 
-export default CountDisplay;
+export default memo(CountDisplay);
